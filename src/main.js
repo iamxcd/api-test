@@ -6,4 +6,4 @@ import router from './router'
 import store from './store'
 
 
-createApp(App).use(store).use(router).use(ElementPlus).mount('#app')
+createApp(App).use(store).use(router).use(ElementPlus, { size: 'mini' }).mount('#app')

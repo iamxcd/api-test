@@ -6,7 +6,7 @@
         <TreeList> </TreeList>
       </el-aside>
       <el-container>
-        <el-header>
+        <el-header class="tag-nav-container">
           <TagNav></TagNav>
         </el-header>
         <el-main>
@@ -38,11 +38,8 @@ export default {
   line-height: 60px;
 }
 
-.el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
+.tag-nav-container {
+  width: 100%;
 }
 
 .el-main {
