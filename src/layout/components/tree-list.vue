@@ -3,8 +3,19 @@
     <el-tree
       :data="data"
       :props="defaultProps"
+      :indent="indent"
       @node-click="handleNodeClick"
-    ></el-tree>
+    >
+      <template #default="{ node, data }">
+        <span class="custom-tree-node">
+          <span class="title"> {{ node.label }}</span>
+
+          <span class="action">
+            <i class="el-icon-more"></i>
+          </span>
+        </span>
+      </template>
+    </el-tree>
   </div>
 </template>
 
@@ -12,6 +23,7 @@
 export default {
   data() {
     return {
+      indent: 5, // 每级缩进多少
       data: [
         {
           label: "一级 1",
@@ -83,5 +95,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.el-tree > .el-tree-node > .el-tree-node__content {
+  height: 60px;
+}
+</style>
+<style lang="scss" scoped>
+.custom-tree-node {
+  .action {
+    color: red;
+  }
+}
 </style>
