@@ -5,6 +5,7 @@
       :props="defaultProps"
       :indent="indent"
       @node-click="handleNodeClick"
+      @node-contextmenu="nodeContextmenu"
     >
       <template #default="{ node, data }">
         <span class="custom-tree-node">
@@ -16,11 +17,16 @@
         </span>
       </template>
     </el-tree>
+    <RightKeyMenu ref="RightKeyMenu"></RightKeyMenu>
   </div>
 </template>
 
 <script>
+import RightKeyMenu from "./right-key-menu";
 export default {
+  components: {
+    RightKeyMenu,
+  },
   data() {
     return {
       indent: 5, // 每级缩进多少
@@ -91,6 +97,10 @@ export default {
     handleNodeClick(data) {
       console.log(data);
     },
+    nodeContextmenu(evt, data, node, ctx) {
+      console.log(evt, data, node, ctx);
+      this.$refs["RightKeyMenu"].show(evt.clientX, evt.clientY);
+    },
   },
 };
 </script>
@@ -99,11 +109,29 @@ export default {
 .el-tree > .el-tree-node > .el-tree-node__content {
   height: 60px;
 }
+
+// 悬停展示右侧工具按钮效果
+.el-tree-node__content {
+  &:hover {
+    .custom-tree-node {
+      .action {
+        display: inline-block;
+      }
+    }
+  }
+}
 </style>
 <style lang="scss" scoped>
 .custom-tree-node {
+  display: flex;
+  width: 100%;
+  .title {
+    flex: 1;
+  }
   .action {
     color: red;
+    display: none;
+    margin-right: 5px;
   }
 }
 </style>
