@@ -13,7 +13,7 @@
         </el-aside>
         <el-container>
           <el-header class="tag-nav-container">
-            <TagNav></TagNav>
+            <TagView></TagView>
           </el-header>
           <el-main>
             <router-view />
@@ -30,17 +30,17 @@
 
 <script>
 import TopHeader from "./components/top-header";
-import TagNav from "./components/tag-nav";
+import TagView from "./components/tag-view.vue";
 import TreeList from "./components/tree-list";
 import LeftNav from "./components/left-nav";
 import Footer from "./components/footer";
 export default {
   components: {
-    TagNav,
     TreeList,
     TopHeader,
     LeftNav,
     Footer,
+    TagView,
   },
 };
 </script>

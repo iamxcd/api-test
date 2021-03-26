@@ -1,5 +1,7 @@
 <template>
-  <div class="home">这里是首页</div>
+  <div class="api">
+    {{ key }}
+  </div>
 </template>
 
 <script>
@@ -7,9 +9,14 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: "home",
+  name: "api",
   components: {
     // HelloWorld
+  },
+  computed: {
+    key() {
+      return this.$route.params.key;
+    },
   },
 };
 </script>

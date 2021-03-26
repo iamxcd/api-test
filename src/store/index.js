@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-
+import tags from './modules/tags'
 export default createStore({
   state: {
   },
@@ -8,5 +8,6 @@ export default createStore({
   actions: {
   },
   modules: {
+    tags
   }
 })
