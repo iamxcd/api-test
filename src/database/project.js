@@ -34,7 +34,7 @@ export function createProject(title) {
  * @param {*} type api 或者 folder
  * @returns 
  */
-export function node(name = '未命名', type = 'api') {
+export function createNode(name = '未命名', type = 'api') {
     return {
         uuid: uuid(),//节点的ID
         name,

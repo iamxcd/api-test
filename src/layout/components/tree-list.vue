@@ -9,6 +9,7 @@
       :data="treeData"
       :props="defaultProps"
       :indent="indent"
+      node-key="uuid"
       @node-click="handleNodeClick"
       @node-contextmenu="nodeContextmenu"
     >
@@ -26,8 +27,8 @@
     </el-tree>
     <vue-context-menu
       :contextMenuData="contextMenuData"
-      @createFolder="createFolder"
-      @createApi="createApi"
+      @createFolder="AddNode('folder')"
+      @createApi="AddNode('api')"
       @removeNode="removeNode"
     ></vue-context-menu>
   </div>
@@ -35,7 +36,7 @@
 
 <script>
 import store from "@/store";
-import { node } from "@/database/project";
+import { createNode } from "@/database/project";
 import VueContextMenu from "@/components/VueContextMenu/VueContextMenu";
 
 export default {
@@ -102,30 +103,34 @@ export default {
     nodeContextmenu(evt, data, node) {
       this.contextMenuTmp.node = node;
       this.contextMenuTmp.data = data;
+      console.log(node);
       this.contextMenuData.axis = {
         x: evt.clientX,
         y: evt.clientY,
       };
     },
     createNode() {
-      this.treeData.push(node("未命名", "folder"));
+      this.treeData.push(createNode("未命名", "folder"));
     },
     savedata() {
       alert(1);
     },
-    createApi() {
+    AddNode(type = "folder") {
+      const node = this.contextMenuTmp.node;
       const data = this.contextMenuTmp.data;
+
+      let children = null;
       if (!data.children) {
-        data.children = [];
+        children = data.children = [];
       }
-      data.children.push(node("未命名", "api"));
-    },
-    createFolder() {
-      const data = this.contextMenuTmp.data;
-      if (!data.children) {
-        data.children = [];
+
+      // 如果选择的是接口 则在同级新增节点
+      if (data.type == "api") {
+        children = node.parent.data.children;
       }
-      data.children.push(node("未命名", "folder"));
+
+      children.push(createNode("未命名", type));
+      node.expanded = true;
     },
     removeNode() {
       const node = this.contextMenuTmp.node;
