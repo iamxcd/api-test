@@ -14,8 +14,10 @@
     >
       <template #default="{ node, data }">
         <span class="custom-tree-node">
-          <span class="title"> {{ node.label }}</span>
+          <i v-if="data.type == 'folder'" class="el-icon-folder"></i>
+          <i v-else class="el-icon-document"></i>
 
+          <span class="title"> {{ data.name }}</span>
           <span class="action">
             <i class="el-icon-more"></i>
           </span>
@@ -25,7 +27,7 @@
     <vue-context-menu
       :contextMenuData="contextMenuData"
       @createFolder="createFolder"
-      @newdata="newdata"
+      @createApi="createApi"
       @removeNode="removeNode"
     ></vue-context-menu>
   </div>
@@ -111,10 +113,20 @@ export default {
     savedata() {
       alert(1);
     },
-    newdata() {
-      console.log("newdata!");
+    createApi() {
+      const data = this.contextMenuTmp.data;
+      if (!data.children) {
+        data.children = [];
+      }
+      data.children.push(node("未命名", "api"));
     },
-    createFolder() {},
+    createFolder() {
+      const data = this.contextMenuTmp.data;
+      if (!data.children) {
+        data.children = [];
+      }
+      data.children.push(node("未命名", "folder"));
+    },
     removeNode() {
       const node = this.contextMenuTmp.node;
       const data = this.contextMenuTmp.data;
