@@ -36,8 +36,9 @@ export function createProject(title) {
  */
 export function node(name = '未命名', type = 'api') {
     return {
+        uuid: uuid(),//节点的ID
         name,
         type,
-        api_uuid: null
+        api_uuid: null//关联的接口的ID
     }
 }

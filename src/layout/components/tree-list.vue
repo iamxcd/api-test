@@ -22,17 +22,23 @@
         </span>
       </template>
     </el-tree>
-    <RightKeyMenu ref="RightKeyMenu"></RightKeyMenu>
+    <vue-context-menu
+      :contextMenuData="contextMenuData"
+      @createFolder="createFolder"
+      @newdata="newdata"
+      @removeNode="removeNode"
+    ></vue-context-menu>
   </div>
 </template>
 
 <script>
-import RightKeyMenu from "./right-key-menu";
 import store from "@/store";
 import { node } from "@/database/project";
+import VueContextMenu from "@/components/VueContextMenu/VueContextMenu";
+
 export default {
   components: {
-    RightKeyMenu,
+    VueContextMenu,
   },
   data() {
     return {
@@ -41,6 +47,33 @@ export default {
       defaultProps: {
         children: "children",
         label: "name",
+      },
+      // 右键菜单配置
+      contextMenuData: {
+        menuName: "demo",
+        axis: {
+          x: null,
+          y: null,
+        },
+        menulists: [
+          {
+            fnHandler: "createApi",
+            btnName: "新建接口",
+          },
+          {
+            fnHandler: "createFolder",
+            btnName: "新建目录",
+          },
+          {
+            fnHandler: "removeNode",
+            btnName: "删除",
+          },
+        ],
+      },
+      // 右键点击处理
+      contextMenuTmp: {
+        node: null,
+        data: null,
       },
     };
   },
@@ -64,12 +97,31 @@ export default {
     handleNodeClick(data) {
       console.log(data);
     },
-    nodeContextmenu(evt, data, node, ctx) {
-      console.log(evt, data, node, ctx);
-      this.$refs["RightKeyMenu"].show(evt.clientX, evt.clientY);
+    nodeContextmenu(evt, data, node) {
+      this.contextMenuTmp.node = node;
+      this.contextMenuTmp.data = data;
+      this.contextMenuData.axis = {
+        x: evt.clientX,
+        y: evt.clientY,
+      };
     },
     createNode() {
       this.treeData.push(node("未命名", "folder"));
+    },
+    savedata() {
+      alert(1);
+    },
+    newdata() {
+      console.log("newdata!");
+    },
+    createFolder() {},
+    removeNode() {
+      const node = this.contextMenuTmp.node;
+      const data = this.contextMenuTmp.data;
+      const parent = node.parent;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex((d) => d.uuid === data.uuid);
+      children.splice(index, 1);
     },
   },
 };
