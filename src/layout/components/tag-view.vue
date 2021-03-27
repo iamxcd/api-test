@@ -1,5 +1,5 @@
 <template>
-  <div class="tags-box">
+  <div class="tags-box" @mousewheel="mousewheel">
     <div class="tags-left-btn" @click="tagsScroll(300)">
       <el-button :plain="true">
         <i class="el-icon-arrow-left"></i>
@@ -71,6 +71,10 @@ export default {
     closeOther() {},
     closeRight() {},
     closeLeft() {},
+    mousewheel(evt) {
+      let px = evt.wheelDelta > 0 ? 100 : -100;
+      this.tagsScroll(px);
+    },
     openTagPage(key) {
       this.$router.push({ path: `/api/${key}` });
     },
