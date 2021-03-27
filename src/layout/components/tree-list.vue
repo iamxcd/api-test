@@ -10,26 +10,36 @@
       :props="defaultProps"
       :indent="indent"
       node-key="uuid"
+      empty-text="无数据"
       @node-click="handleNodeClick"
       @node-contextmenu="nodeContextmenu"
     >
       <template #default="{ node, data }">
-        <span class="custom-tree-node">
-          <i v-if="data.type == 'folder'" class="el-icon-folder"></i>
-          <i v-else class="el-icon-document"></i>
+        <div class="custom-tree-node">
+          <i v-if="data.type == 'folder'" class="icon el-icon-folder"></i>
+          <i v-else class="icon el-icon-document"></i>
+          <input
+            v-if="data.$_is_show_rename_input"
+            type="text"
+            v-model="data.name"
+            @blur="renameBlur(data)"
+            class="rename_input"
+          />
 
-          <span class="title"> {{ data.name }}</span>
+          <span v-else class="title"> {{ data.name }}</span>
+
           <span class="action">
             <i class="el-icon-more"></i>
           </span>
-        </span>
+        </div>
       </template>
     </el-tree>
     <vue-context-menu
       :contextMenuData="contextMenuData"
       @createFolder="AddNode('folder')"
       @createApi="AddNode('api')"
-      @removeNode="removeNode"
+      @removeNode="removeNode()"
+      @rename="rename()"
     ></vue-context-menu>
   </div>
 </template>
@@ -66,6 +76,10 @@ export default {
           {
             fnHandler: "createFolder",
             btnName: "新建目录",
+          },
+          {
+            fnHandler: "rename",
+            btnName: "重命名",
           },
           {
             fnHandler: "removeNode",
@@ -140,6 +154,13 @@ export default {
       const index = children.findIndex((d) => d.uuid === data.uuid);
       children.splice(index, 1);
     },
+    rename() {
+      const data = this.contextMenuTmp.data;
+      data.$_is_show_rename_input = true;
+    },
+    renameBlur(data) {
+      delete data.$_is_show_rename_input;
+    },
   },
 };
 </script>
@@ -163,9 +184,16 @@ export default {
 <style lang="scss" scoped>
 .custom-tree-node {
   display: flex;
+  align-items: center;
   width: 100%;
+  .icon {
+    height: 100%;
+  }
   .title {
     flex: 1;
+  }
+  .rename_input {
+    width: 100%;
   }
   .action {
     color: red;
