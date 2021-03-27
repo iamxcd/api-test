@@ -1,9 +1,9 @@
 import router from "@/router"
 import _ from 'lodash'
-import { v4 as uuidv4 } from "uuid";
+import uuid from '@/plugins/uuid'
+
 const state = {
-    tagList: [
-    ],
+    tagList: [],
 }
 const getters = {
     tags: state => state.tagList
@@ -25,7 +25,7 @@ const mutations = {
         console.log('index:', index);
     },
     ADD_TAG(state) {
-        let key = uuidv4()
+        let key = uuid()
         state.tagList.push({
             title: "未命名",
             key: key,

@@ -1,7 +1,12 @@
 <template>
   <div>
+    <div class="tool">
+      <div>
+        <el-button @click="createNode()">添加</el-button>
+      </div>
+    </div>
     <el-tree
-      :data="data"
+      :data="treeData"
       :props="defaultProps"
       :indent="indent"
       @node-click="handleNodeClick"
@@ -23,6 +28,8 @@
 
 <script>
 import RightKeyMenu from "./right-key-menu";
+import store from "@/store";
+import { node } from "@/database/project";
 export default {
   components: {
     RightKeyMenu,
@@ -30,68 +37,28 @@ export default {
   data() {
     return {
       indent: 5, // 每级缩进多少
-      data: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      treeData: [],
       defaultProps: {
         children: "children",
-        label: "label",
+        label: "name",
       },
     };
+  },
+  created() {
+    this.treeData = this.nodes;
+  },
+  computed: {
+    nodes() {
+      return store.getters.nodes;
+    },
+  },
+  watch: {
+    treeData: {
+      handler(nodes) {
+        this.$store.dispatch("setNodes", nodes);
+      },
+      deep: true,
+    },
   },
   methods: {
     handleNodeClick(data) {
@@ -100,6 +67,9 @@ export default {
     nodeContextmenu(evt, data, node, ctx) {
       console.log(evt, data, node, ctx);
       this.$refs["RightKeyMenu"].show(evt.clientX, evt.clientY);
+    },
+    createNode() {
+      this.treeData.push(node("未命名", "folder"));
     },
   },
 };
@@ -133,5 +103,11 @@ export default {
     display: none;
     margin-right: 5px;
   }
+}
+
+.tool {
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 </style>
