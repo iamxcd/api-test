@@ -21,7 +21,9 @@
           <input
             v-if="data.$_is_show_rename_input"
             type="text"
+            v-focus
             v-model="data.name"
+            @keyup.enter="data.$_is_show_rename_input = false"
             @blur="renameBlur(data)"
             class="rename_input"
           />
