@@ -138,6 +138,8 @@ export default {
       let children = null;
       if (!data.children) {
         children = data.children = [];
+      } else {
+        children = data.children;
       }
 
       // 如果选择的是接口 则在同级新增节点
