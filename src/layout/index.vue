@@ -16,7 +16,11 @@
             <TagView></TagView>
           </el-header>
           <el-main>
-            <router-view />
+            <router-view v-slot="{ Component }">
+              <keep-alive>
+                <component :key="fullPath" :is="Component" />
+              </keep-alive>
+            </router-view>
           </el-main>
         </el-container>
       </el-container>
@@ -41,6 +45,11 @@ export default {
     LeftNav,
     Footer,
     TagView,
+  },
+  computed: {
+    fullPath() {
+      return this.$route.fullPath;
+    },
   },
 };
 </script>
