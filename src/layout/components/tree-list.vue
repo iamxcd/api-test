@@ -168,6 +168,9 @@ export default {
       const parent = node.parent;
       const children = parent.data.children || parent.data;
       const index = children.findIndex((d) => d.uuid === data.uuid);
+      if (data.type == "api") {
+        this.$store.dispatch("closeTag", data.api_uuid);
+      }
       children.splice(index, 1);
     },
     rename() {
