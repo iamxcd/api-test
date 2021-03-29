@@ -56,6 +56,11 @@ const mutations = {
             })
         }
         router.push(`/api/${key}`)
+    },
+    RENAME_TAG(state, { key, title }) {
+        let tag = _.find(state.tagList, { 'key': key })
+        tag.title = title
+        // TODO 同步到数据库
     }
 }
 const actions = {
@@ -67,6 +72,9 @@ const actions = {
     },
     openTag({ commit }, { key, title }) {
         commit('OPEN_TAG', { key, title });
+    },
+    renameTag({ commit }, { key, title }) {
+        commit('RENAME_TAG', { key, title });
     }
 }
 

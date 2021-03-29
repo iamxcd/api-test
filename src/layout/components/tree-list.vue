@@ -23,8 +23,8 @@
             type="text"
             v-focus
             v-model="data.name"
-            @keyup.enter="data.$_is_show_rename_input = false"
-            @blur="renameBlur(data)"
+            @keyup.enter="renameHandle(data)"
+            @blur="renameHandle(data)"
             class="rename_input"
           />
 
@@ -177,8 +177,14 @@ export default {
       const data = this.contextMenuTmp.data;
       data.$_is_show_rename_input = true;
     },
-    renameBlur(data) {
+    renameHandle(data) {
       delete data.$_is_show_rename_input;
+      if (data.type == "api") {
+        this.$store.dispatch("renameTag", {
+          title: data.name,
+          key: data.api_uuid,
+        });
+      }
     },
   },
 };
