@@ -16,8 +16,14 @@ const mutations = {
             if (router.currentRoute._value.params.key == key) {
                 let path = '/'
                 if (state.tagList.length != 0) {
-                    let _key = state.tagList[index - 1].key
-                    path = `/api/${_key}`
+                    if (index == 0) {
+                        let _key = state.tagList[0].key
+                        path = `/api/${_key}`
+                    } else {
+                        let _key = state.tagList[index - 1].key
+                        path = `/api/${_key}`
+                    }
+
                 }
                 router.push({ path: path })
             }
