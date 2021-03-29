@@ -19,14 +19,23 @@
         </el-dropdown>
       </div>
     </template>
-    <div v-for="o in 4" :key="o" class="text item">
+    <!-- <div v-for="o in 4" :key="o" class="text item">
       {{ "列表内容 " + o }}
-    </div>
+    </div> -->
+    <textarea ref="textarea"></textarea>
   </el-card>
 </template>
 
 <script>
-export default {};
+import CodeMirror from "codemirror/lib/codemirror.js";
+import "codemirror/lib/codemirror.css";
+export default {
+  mounted() {
+    CodeMirror.fromTextArea(this.$refs["textarea"], {
+      lineNumbers: true,
+    });
+  },
+};
 </script>
 
 <style lang="scss">
