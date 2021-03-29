@@ -1,30 +1,5 @@
 <template>
   <div class="tags-box" @mousewheel="mousewheel">
-    <div class="tags-left-btn" @click="tagsScroll(300)">
-      <el-button :plain="true">
-        <i class="el-icon-arrow-left"></i>
-      </el-button>
-    </div>
-    <div class="tags-right-btn" @click="tagsScroll(-300)">
-      <el-button :plain="true">
-        <i class="el-icon-arrow-right"></i>
-      </el-button>
-    </div>
-    <div class="tags-close">
-      <el-dropdown>
-        <el-button :plain="true">
-          <i class="el-icon-close"></i>
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item @click="closeAll"> 全部关闭 </el-dropdown-item>
-            <el-dropdown-item @click="closeOther"> 关闭其他 </el-dropdown-item>
-            <el-dropdown-item @click="closeRight"> 关闭右边 </el-dropdown-item>
-            <el-dropdown-item @click="closeLeft"> 关闭左边 </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
     <div class="tags-list" ref="tagsList">
       <div
         class="tags-view"
@@ -35,6 +10,7 @@
           :key="tag.key"
           v-for="tag in tagList"
           closable
+          size="large"
           :color="isActive(tag.key)"
           :disable-transitions="false"
           @click="openTagPage(tag.key)"
@@ -119,25 +95,7 @@ export default {
   -webkit-flex-shrink: 0;
   overflow: hidden;
   max-width: 100%;
-  .tags-left-btn {
-    position: absolute;
-    z-index: 10;
-    left: 0;
-  }
-  .tags-right-btn {
-    position: absolute;
-    z-index: 10;
-    right: 44px;
-    border-right: 1px solid #e6e6e6;
-  }
-  .tags-close {
-    position: absolute;
-    z-index: 10;
-    right: 0;
-  }
   .tags-list {
-    position: absolute;
-    left: 45px;
     width: 100%;
     .tags-view {
       margin-top: 3px;
