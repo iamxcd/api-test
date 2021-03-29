@@ -31,6 +31,7 @@ import CodeMirror from "codemirror/lib/codemirror.js";
 import "codemirror/lib/codemirror.css";
 export default {
   mounted() {
+    // https://codemirror.net/index.html
     CodeMirror.fromTextArea(this.$refs["textarea"], {
       lineNumbers: true,
     });
