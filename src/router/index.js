@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/api/:key',
     name: 'api',
-    component: () => import('@/views/api.vue')
+    component: () => import('@/views/api/index.vue')
   }
 ]
 

@@ -1,17 +1,15 @@
 <template>
   <div class="api">
-    {{ key }}
+    <UrlBar></UrlBar>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-
+import UrlBar from "./components/UrlBar";
 export default {
   name: "api",
   components: {
-    // HelloWorld
+    UrlBar,
   },
   computed: {
     key() {
