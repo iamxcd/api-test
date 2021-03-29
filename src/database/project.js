@@ -39,6 +39,6 @@ export function createNode(name = '未命名', type = 'api') {
         uuid: uuid(),//节点的ID
         name,
         type,
-        api_uuid: null//关联的接口的ID
+        api_uuid: type == 'api' ? uuid() : null,//关联的接口的ID
     }
 }

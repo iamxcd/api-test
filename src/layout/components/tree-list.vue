@@ -114,12 +114,17 @@ export default {
   },
   methods: {
     handleNodeClick(data) {
-      console.log(data);
+      if (data.type == "api") {
+        this.$store.dispatch("openTag", {
+          title: data.name,
+          key: data.api_uuid,
+        });
+      }
     },
     nodeContextmenu(evt, data, node) {
       this.contextMenuTmp.node = node;
       this.contextMenuTmp.data = data;
-      console.log(node);
+      // console.log(node);
       this.contextMenuData.axis = {
         x: evt.clientX,
         y: evt.clientY,
@@ -146,9 +151,16 @@ export default {
       if (data.type == "api") {
         children = node.parent.data.children;
       }
-
-      children.push(createNode("未命名", type));
+      let newnode = createNode("未命名", type);
+      children.push(newnode);
       node.expanded = true;
+
+      if (type == "api") {
+        this.$store.dispatch("openTag", {
+          title: newnode.name,
+          key: newnode.api_uuid,
+        });
+      }
     },
     removeNode() {
       const node = this.contextMenuTmp.node;

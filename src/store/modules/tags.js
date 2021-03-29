@@ -3,7 +3,12 @@ import _ from 'lodash'
 import uuid from '@/plugins/uuid'
 
 const state = {
-    tagList: [],
+    tagList: [
+        // {
+        //     title: '接口名',
+        //     key: '3320cc226f264022a457c5e23f6cbba5'
+        // }
+    ],
 }
 const getters = {
     tags: state => state.tagList
@@ -37,6 +42,20 @@ const mutations = {
             key: key,
         });
         router.push({ path: `/api/${key}` })
+    },
+    OPEN_TAG(state, { key, title }) {
+        console.log(key, title)
+        let isset = state.tagList.some(function (item) {
+            return item.key == key
+        })
+
+        if (!isset) {
+            state.tagList.unshift({
+                title,
+                key
+            })
+        }
+        router.push(`/api/${key}`)
     }
 }
 const actions = {
@@ -45,6 +64,9 @@ const actions = {
     },
     addTag({ commit }) {
         commit('ADD_TAG');
+    },
+    openTag({ commit }, { key, title }) {
+        commit('OPEN_TAG', { key, title });
     }
 }
 
