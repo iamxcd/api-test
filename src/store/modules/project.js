@@ -2,7 +2,9 @@ import router from "@/router"
 import _ from 'lodash'
 
 const state = {
-    curProject: {}
+    curProject: {
+        nodes: []
+    }
 }
 const getters = {
     curProject: state => state.curProject,
