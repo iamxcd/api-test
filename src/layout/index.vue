@@ -14,7 +14,7 @@
         <el-main>
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <component :key="fullPath" :is="Component" />
+              <component class="comp" :key="fullPath" :is="Component" />
             </keep-alive>
           </router-view>
         </el-main>
@@ -47,7 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  min-height: calc(100vh - 120px);
+  height: calc(100vh - 60px);
   .left-nav-container {
     // background-color: #aaa;
   }

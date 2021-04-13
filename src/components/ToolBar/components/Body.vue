@@ -1,40 +1,28 @@
 <template>
-  <el-card class="body-area">
+  <!-- <el-card class="body-area">
     <template #header>
       <div class="card-header">
         <span>Body</span>
-        <el-dropdown size="large">
-          <span class="el-dropdown-link">
-            ContentType<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>黄金糕</el-dropdown-item>
-              <el-dropdown-item>狮子头</el-dropdown-item>
-              <el-dropdown-item>螺蛳粉</el-dropdown-item>
-              <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-              <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <span class="el-dropdown-link">
+          json
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
       </div>
-    </template>
-    <!-- <div v-for="o in 4" :key="o" class="text item">
-      {{ "列表内容 " + o }}
-    </div> -->
-    <textarea ref="textarea"></textarea>
-  </el-card>
+    </template> -->
+  <Editer></Editer>
+  <!-- </el-card> -->
 </template>
 
 <script>
-import CodeMirror from "codemirror/lib/codemirror.js";
-import "codemirror/lib/codemirror.css";
+import Editer from "@/components/Editer";
 export default {
-  mounted() {
-    // https://codemirror.net/index.html
-    CodeMirror.fromTextArea(this.$refs["textarea"], {
-      lineNumbers: true,
-    });
+  components: {
+    Editer,
+  },
+  data() {
+    return {
+      code: "12311",
+    };
   },
 };
 </script>

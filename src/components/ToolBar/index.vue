@@ -1,16 +1,15 @@
 <template>
-  <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-    <el-tab-pane label="Params" name="first">
+  <el-collapse v-model="activeNames">
+    <el-collapse-item title="Params" name="1">
       <Params></Params>
-    </el-tab-pane>
-    <el-tab-pane label="Auth" name="second">认证</el-tab-pane>
-    <el-tab-pane label="Headers" name="third">
+    </el-collapse-item>
+    <el-collapse-item title="Auth" name="2">
       <Params></Params>
-    </el-tab-pane>
-    <el-tab-pane label="Body" name="fourth">
+    </el-collapse-item>
+    <el-collapse-item title="Body" name="3">
       <Body></Body>
-    </el-tab-pane>
-  </el-tabs>
+    </el-collapse-item>
+  </el-collapse>
 </template>
 <script>
 import Params from "./components/Params";
@@ -23,11 +22,13 @@ export default {
   data() {
     return {
       activeName: "first",
+      activeNames: ["1", "2", "3"],
     };
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
+      this.activeName = tab.paneName;
     },
   },
 };
