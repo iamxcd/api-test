@@ -1,15 +1,15 @@
 <template>
-  <el-collapse v-model="activeNames">
-    <el-collapse-item title="Params" name="1">
+  <el-tabs v-model="activeName" type="card">
+    <el-tab-pane label="Params" name="first">
       <Params></Params>
-    </el-collapse-item>
-    <el-collapse-item title="Auth" name="2">
+    </el-tab-pane>
+    <el-tab-pane lazy label="Auth" name="second">
       <Params></Params>
-    </el-collapse-item>
-    <el-collapse-item title="Body" name="3">
+    </el-tab-pane>
+    <el-tab-pane lazy label="Body" name="third">
       <Body></Body>
-    </el-collapse-item>
-  </el-collapse>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 <script>
 import Params from "./components/Params";

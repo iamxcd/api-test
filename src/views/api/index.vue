@@ -8,6 +8,11 @@
       @onSend="onSend"
     ></UrlBar>
     <ToolBar></ToolBar>
+
+    <el-drawer title="我是标题" v-model="drawer" direction="btt">
+      <!-- <div>{{ response.data }}</div> -->
+      123
+    </el-drawer>
   </div>
 </template>
 
@@ -27,6 +32,8 @@ export default {
         url: "",
         method: "GET",
       },
+      drawer: false,
+      response: {},
     };
   },
   computed: {
@@ -55,6 +62,7 @@ export default {
         url: this.request.url,
       }).then((res) => {
         console.log(res);
+        this.drawer = true;
       });
     },
   },

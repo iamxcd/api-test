@@ -1,16 +1,16 @@
 <template>
-  <!-- <el-card class="body-area">
+  <el-card class="body-area">
     <template #header>
       <div class="card-header">
         <span>Body</span>
         <span class="el-dropdown-link">
           json
-          <i class="el-icon-arrow-down el-icon--right"></i>
+          <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
         </span>
       </div>
-    </template> -->
-  <Editer></Editer>
-  <!-- </el-card> -->
+    </template>
+    <Editer></Editer>
+  </el-card>
 </template>
 
 <script>
@@ -49,6 +49,11 @@ export default {
 
   .el-card__header {
     padding: 9px 10px;
+  }
+
+  .el-card__body,
+  .el-main {
+    padding: 0px;
   }
 }
 </style>
