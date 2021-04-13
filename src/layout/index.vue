@@ -4,31 +4,22 @@
       <TopHeader></TopHeader>
     </el-header>
     <el-container class="main">
-      <el-aside class="left-nav-container" width="80px">
-        <LeftNav></LeftNav>
+      <el-aside width="200px">
+        <TreeList> </TreeList>
       </el-aside>
       <el-container>
-        <el-aside width="200px">
-          <TreeList> </TreeList>
-        </el-aside>
-        <el-container>
-          <el-header class="tag-nav-container">
-            <TagView></TagView>
-          </el-header>
-          <el-main>
-            <router-view v-slot="{ Component }">
-              <keep-alive>
-                <component :key="fullPath" :is="Component" />
-              </keep-alive>
-            </router-view>
-          </el-main>
-        </el-container>
+        <el-header class="tag-nav-container">
+          <TagView></TagView>
+        </el-header>
+        <el-main>
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :key="fullPath" :is="Component" />
+            </keep-alive>
+          </router-view>
+        </el-main>
       </el-container>
     </el-container>
-
-    <el-footer>
-      <Footer></Footer>
-    </el-footer>
   </div>
 </template>
 
