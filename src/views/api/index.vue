@@ -1,18 +1,20 @@
 <template>
   <div class="api">
-    <UrlBar
-      :url="request.url"
-      :method="request.method"
-      @onChange="urlChange"
-      @onSave="onSave"
-      @onSend="onSend"
-    ></UrlBar>
-    <ToolBar></ToolBar>
-
-    <el-drawer title="我是标题" v-model="drawer" direction="btt">
-      <!-- <div>{{ response.data }}</div> -->
-      123
-    </el-drawer>
+    <splitpanes class="default-theme splitpane" horizontal>
+      <pane>
+        <UrlBar
+          :url="request.url"
+          :method="request.method"
+          @onChange="urlChange"
+          @onSave="onSave"
+          @onSend="onSend"
+        ></UrlBar>
+        <ToolBar></ToolBar>
+      </pane>
+      <pane max-size="100">
+        返回值
+      </pane>
+    </splitpanes>
   </div>
 </template>
 
@@ -20,11 +22,15 @@
 import UrlBar from "@/components/UrlBar";
 import ToolBar from "@/components/ToolBar";
 import http from "@/libs/request";
+import { Splitpanes, Pane } from "splitpanes";``
+import "splitpanes/dist/splitpanes.css";
 export default {
   name: "api",
   components: {
     UrlBar,
     ToolBar,
+    Splitpanes,
+    Pane,
   },
   data() {
     return {
@@ -32,7 +38,6 @@ export default {
         url: "",
         method: "GET",
       },
-      drawer: false,
       response: {},
     };
   },
@@ -68,3 +73,10 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.api {
+  .splitpane {
+    height: calc(100vh - 160px);
+  }
+}
+</style>
