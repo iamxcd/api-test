@@ -1,12 +1,12 @@
 <template>
   <el-tabs v-model="activeName" type="card">
-    <el-tab-pane label="Params" name="first">
+    <el-tab-pane label="参数" name="params">
       <Params></Params>
     </el-tab-pane>
-    <el-tab-pane lazy label="Auth" name="second">
+    <el-tab-pane lazy label="请求头" name="header">
       <Params></Params>
     </el-tab-pane>
-    <el-tab-pane lazy label="Body" name="third">
+    <el-tab-pane lazy label="Body" name="body">
       <Body></Body>
     </el-tab-pane>
   </el-tabs>
@@ -21,13 +21,11 @@ export default {
   },
   data() {
     return {
-      activeName: "first",
-      activeNames: ["1", "2", "3"],
+      activeName: "params",
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    handleClick(tab) {
       this.activeName = tab.paneName;
     },
   },
