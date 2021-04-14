@@ -6,16 +6,38 @@
 import CodeMirror from "codemirror/lib/codemirror.js";
 import "codemirror/lib/codemirror.css";
 export default {
-  mounted() {
-    // https://codemirror.net/index.html
-    CodeMirror.fromTextArea(this.$refs["textarea"], {
-      lineNumbers: true
-    });
+  props: {
+    value: {
+      type: String,
+      default: "",
+    },
+    width: {
+      type: String,
+      default: "",
+    },
+    height: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
-      code: "12311",
+      code: "",
+      cm: null,
     };
+  },
+  watch: {
+    value(value) {
+      this.code = value;
+      this.cm && this.cm.setValue(value);
+    },
+  },
+  mounted() {
+    // https://codemirror.net/index.html
+    this.cm = CodeMirror.fromTextArea(this.$refs["textarea"], {
+      lineNumbers: true,
+    });
+    // this.cm.setSize("auto", "calc(100vh - 300px)");
   },
 };
 </script>

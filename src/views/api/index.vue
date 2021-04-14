@@ -11,7 +11,9 @@
         ></UrlBar>
         <ToolBar></ToolBar>
       </pane>
-      <pane max-size="100" size="20" min-size="20"> 返回值 </pane>
+      <pane max-size="100" size="20" min-size="20">
+        <ResponseBar :response="response"></ResponseBar>
+      </pane>
     </splitpanes>
   </div>
 </template>
@@ -19,6 +21,8 @@
 <script>
 import UrlBar from "@/components/UrlBar";
 import ToolBar from "@/components/ToolBar";
+import ResponseBar from "@/components/ResponseBar";
+
 import http from "@/libs/request";
 import { Splitpanes, Pane } from "splitpanes";
 import "@/styles/splitpanes.css";
@@ -29,6 +33,7 @@ export default {
     ToolBar,
     Splitpanes,
     Pane,
+    ResponseBar,
   },
   data() {
     return {
@@ -66,8 +71,7 @@ export default {
           url: this.request.url,
         })
         .then((res) => {
-          console.log(res);
-          this.drawer = true;
+          this.response = res;
         });
     },
   },
