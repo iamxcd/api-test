@@ -11,9 +11,7 @@
         ></UrlBar>
         <ToolBar></ToolBar>
       </pane>
-      <pane max-size="100">
-        返回值
-      </pane>
+      <pane max-size="100" size="20" min-size="20"> 返回值 </pane>
     </splitpanes>
   </div>
 </template>
@@ -22,8 +20,8 @@
 import UrlBar from "@/components/UrlBar";
 import ToolBar from "@/components/ToolBar";
 import http from "@/libs/request";
-import { Splitpanes, Pane } from "splitpanes";``
-import "splitpanes/dist/splitpanes.css";
+import { Splitpanes, Pane } from "splitpanes";
+import "@/styles/splitpanes.css";
 export default {
   name: "api",
   components: {
