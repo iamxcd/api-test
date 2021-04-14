@@ -60,13 +60,15 @@ export default {
         return;
       }
       // 发送请求
-      http({
-        method: this.request.methods,
-        url: this.request.url,
-      }).then((res) => {
-        console.log(res);
-        this.drawer = true;
-      });
+      http
+        .request({
+          method: this.request.methods,
+          url: this.request.url,
+        })
+        .then((res) => {
+          console.log(res);
+          this.drawer = true;
+        });
     },
   },
 };
