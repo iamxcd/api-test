@@ -22,7 +22,8 @@ async function createWindow() {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      webSecurity:false // 禁用同源策略 跨域
+      spellcheck: false,
+      webSecurity: false // 禁用同源策略 跨域
     }
   })
 
