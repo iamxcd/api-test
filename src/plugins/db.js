@@ -3,8 +3,8 @@ import { createProject, getProject } from '@/database/project'
 import store from '@/store'
 const db = new Dexie('apitest')
 db.version(1).stores({
-    project: '++id, uuid, title ,created_at',
-    api: '++id , uuid , project_uuid , title , sort'
+    project: '++id, uuid',
+    api: '++id , uuid , project_uuid'
 })
 
 
@@ -20,7 +20,8 @@ export const dbInit = async () => {
         console.log('返回值', id)
     }
 
-    if (store.getters.curProject == null) {
+    if (store.getters.curProject.id == null) {
+        console.log('从数据库中取值 赋给vuex')
         let project = await db.project.toCollection().first()
         store.dispatch("setCurProject", project);
     }

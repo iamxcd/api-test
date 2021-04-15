@@ -1,5 +1,6 @@
 import db from '@/plugins/db'
 import uuid from '@/plugins/uuid'
+import { now } from "@/plugins/dayjs"
 
 /**
  * project 集合
@@ -11,7 +12,7 @@ import uuid from '@/plugins/uuid'
  */
 
 export function getProjectList() {
-
+    return db.project.toArray()
 }
 
 export function getProject(id) {
@@ -23,7 +24,8 @@ export function createProject(title) {
     let data = {
         uuid: uuid(),
         title,
-        nodes: []
+        nodes: [],
+        created_at: now()
     }
     return db.project.add(data)
 }

@@ -4,6 +4,8 @@ import { createProject, updateProject } from '@/database/project'
 
 const state = {
     curProject: {
+        id: null,
+        uuid: null,
         title: '',
         nodes: []
     }
@@ -22,11 +24,11 @@ const mutations = {
 }
 const actions = {
     async setCurProject({ commit }, project) {
-        if (project.id) {
-            id = await updateProject(project.id, project)
-        } else {
-            id = await createProject(project.title)
-        }
+        // if (project.id) {
+        //     await updateProject(project.id, project)
+        // } else {
+        //     await createProject(project.title)
+        // }
         commit('SET_CUR_PROJECT', project)
     },
     async setNodes({ commit, state }, nodes) {
