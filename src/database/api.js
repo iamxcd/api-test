@@ -7,6 +7,7 @@ import uuid from '@/plugins/uuid'
  * uuid
  * title 接口名称
  * url 请求地址
+ * project_uuid 关联项目的uuid
  * method 请求方法
  * params 请求参数
  * headers 请求头
@@ -15,20 +16,12 @@ import uuid from '@/plugins/uuid'
 
 
 export function getApi(uuid) {
+    console.log('获取接口信息', uuid)
     return db.api.get({ 'uuid': uuid })
 }
 
 
-export function storeApi(uuid, title, url, method, params = {}, headers = {}, body = "") {
-    let data = {
-        uuid,
-        title,
-        url,
-        method,
-        params,
-        headers,
-        body
-    }
+export function storeApi(data) {
     return db.api.add(data)
 }
 

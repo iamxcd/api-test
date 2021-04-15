@@ -8,17 +8,25 @@ function closeTag(index, state, key) {
     state.tagList.splice(index, 1)
     if (router.currentRoute._value.params.key == key) {
         let path = '/'
+        let title
         if (state.tagList.length != 0) {
             if (index == 0) {
                 let _key = state.tagList[0].key
+                title = state.tagList[0].title
                 path = `/api/${_key}`
             } else {
                 let _key = state.tagList[index - 1].key
+                title = state.tagList[0].title
                 path = `/api/${_key}`
             }
 
         }
-        router.push({ path: path })
+        router.push({
+            path: path,
+            query: {
+                title,
+            }
+        })
     }
 }
 
@@ -57,12 +65,18 @@ const mutations = {
     },
     ADD_TAG(state) {
         let key = uuid()
+        let title = '未命名'
         state.tagList.push({
-            title: "未命名",
-            key: key,
+            title,
+            key,
             is_saved: false
         });
-        router.push({ path: `/api/${key}` })
+        router.push({
+            path: `/api/${key}`,
+            query: {
+                title,
+            }
+        })
     },
     OPEN_TAG(state, { key, title }) {
         console.log(key, title)
@@ -77,12 +91,23 @@ const mutations = {
                 is_saved: true
             })
         }
-        router.push(`/api/${key}`)
+        router.push({
+            path: `/api/${key}`,
+            query: {
+                title
+            }
+        })
     },
     RENAME_TAG(state, { key, title }) {
         let tag = _.find(state.tagList, { 'key': key })
         tag.title = title
         // TODO 同步到数据库
+    },
+    SET_ISSAVED(state, { key, is_saved }) {
+        let index = _.findIndex(state.tagList, { 'key': key })
+        if (index > -1) {
+            state.tagList[index].is_saved = is_saved
+        }
     }
 }
 const actions = {
@@ -97,6 +122,9 @@ const actions = {
     },
     renameTag({ commit }, { key, title }) {
         commit('RENAME_TAG', { key, title });
+    },
+    setIsSaved({ commit }, { key, is_saved }) {
+        commit('SET_ISSAVED', { key, is_saved });
     }
 }
 

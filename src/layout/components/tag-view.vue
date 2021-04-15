@@ -13,7 +13,7 @@
           size="large"
           :color="isActive(tag.key)"
           :disable-transitions="false"
-          @click="openTagPage(tag.key)"
+          @click="openTagPage(tag)"
           @close="closeTagPage(tag.key)"
         >
           <i class="el-icon-star-on" v-if="isStar(tag.key)"></i>
@@ -51,8 +51,13 @@ export default {
       let px = evt.wheelDelta > 0 ? 100 : -100;
       this.tagsScroll(px);
     },
-    openTagPage(key) {
-      this.$router.push({ path: `/api/${key}` });
+    openTagPage(tag) {
+      this.$router.push({
+        path: `/api/${tag.key}`,
+        query: {
+          title: tag.title,
+        },
+      });
     },
     tagsScroll(offset) {
       const tagsListWidth = this.$refs.tagsList.offsetWidth - 150;

@@ -3,8 +3,8 @@
     <splitpanes class="default-theme splitpane" horizontal>
       <pane>
         <UrlBar
-          :url="request.url"
-          :method="request.method"
+          :url="apiInfo.url"
+          :method="apiInfo.method"
           @onChange="urlChange"
           @onSave="onSave"
           @onSend="onSend"
@@ -26,6 +26,8 @@ import ResponseBar from "@/components/ResponseBar";
 import http from "@/libs/request";
 import { Splitpanes, Pane } from "splitpanes";
 import "@/styles/splitpanes.css";
+
+import { getApi, storeApi } from "@/database/api";
 export default {
   name: "api",
   components: {
@@ -37,43 +39,103 @@ export default {
   },
   data() {
     return {
-      request: {
+      apiInfo: {
+        id: null,
+        uuid: "",
+        title: "",
         url: "",
+        project_uuid: "",
         method: "GET",
+        params: [],
+        headers: [],
+        data: "",
       },
       response: {},
     };
+  },
+  created() {
+    this.getApiInfo();
+    this.listening();
+    // console.log(this.$route);
   },
   computed: {
     key() {
       return this.$route.params.key;
     },
+    title() {
+      return this.$route.query.title;
+    },
+    projectKey() {
+      return this.$store.getters.curProject.uuid;
+    },
+  },
+  watch: {
+    apiInfo: {
+      handler(val) {
+        this.setSaved(false);
+      },
+      deep: true,
+    },
   },
   methods: {
     urlChange(obj) {
-      this.request.url = obj.url;
-      this.request.method = obj.method;
-      console.log(this.request);
+      this.apiInfo.url = obj.url;
+      this.apiInfo.method = obj.method;
     },
-    onSave() {
-      // TODO 保存
-      
+    init() {
+      this.apiInfo.uuid = this.key;
+      this.apiInfo.title = this.title;
+      this.apiInfo.project_uuid = this.projectKey;
+    },
+    async onSave() {
+      console.log(this.apiInfo.id);
+      if (this.apiInfo.id == null) {
+        let data = JSON.parse(JSON.stringify(this.apiInfo));
+        delete data.id; // 需要移除ID 数据库
+        let id = await storeApi(data);
+        console.log("插入的ID", id);
+        this.getApiInfo();
+      }
+      this.setSaved(true);
     },
     onSend() {
-      console.log(this.request);
-      if (this.request.url == "") {
+      if (this.apiInfo.url == "") {
         this.$message.error("请输入URL");
         return;
       }
       // 发送请求
       http
         .request({
-          method: this.request.methods,
-          url: this.request.url,
+          method: this.apiInfo.methods,
+          url: this.apiInfo.url,
         })
         .then((res) => {
           this.response = res;
         });
+    },
+    getApiInfo() {
+      getApi(this.key).then((data) => {
+        if (data === undefined) {
+          console.log("未找到数据,初始化");
+          this.init();
+        } else {
+          this.apiInfo = data;
+        }
+      });
+    },
+    setSaved(is_saved) {
+      this.$store.dispatch("setIsSaved", {
+        key: this.key,
+        is_saved,
+      });
+    },
+    listening() {
+      document.onkeydown = (event) => {
+        if (event.key === "s" && event.ctrlKey) {
+          console.log("按下了 ctrl + s ");
+          this.onSave();
+        }
+      };
     },
   },
 };

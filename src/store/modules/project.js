@@ -12,7 +12,7 @@ const state = {
 }
 const getters = {
     curProject: state => state.curProject,
-    nodes: state => state.curProject ? state.curProject.nodes : [],
+    nodes: state => state.curProject.nodes,
 }
 const mutations = {
     SET_CUR_PROJECT(state, project) {
