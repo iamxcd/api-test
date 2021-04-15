@@ -115,6 +115,13 @@ export default {
       },
       deep: true,
     },
+    "$store.getters.curProject.id": {
+      handler() {
+        // console.log("当前项目变化", this.$store.getters.nodes);
+        this.treeData = this.$store.getters.nodes;
+      },
+      deep: true,
+    },
   },
   methods: {
     handleNodeClick(data) {

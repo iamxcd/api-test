@@ -23,18 +23,16 @@ const mutations = {
     }
 }
 const actions = {
-    async setCurProject({ commit }, project) {
-        // if (project.id) {
-        //     await updateProject(project.id, project)
-        // } else {
-        //     await createProject(project.title)
-        // }
+    setCurProject({ commit }, project) {
         commit('SET_CUR_PROJECT', project)
     },
-    async setNodes({ commit, state }, nodes) {
+    setNodes({ commit, state }, nodes) {
         commit('SET_NODES', nodes)
-        console.log(state.curProject)
-        // id = await updateProject(state.curProject.id)
+        let id = state.curProject.id
+        nodes = JSON.parse(JSON.stringify(nodes))
+        updateProject(id, { nodes }).then(res => {
+            // console.log('目录被修改', res, nodes)
+        })
     }
 }
 

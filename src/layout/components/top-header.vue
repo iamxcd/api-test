@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     projectName() {
-      console.log(this.$store.getters.curProject);
+      // console.log(this.$store.getters.curProject);
       return this.$store.getters.curProject.title;
     },
   },
