@@ -23,6 +23,7 @@ export function storeApi(uuid, title, url, method, params = {}, headers = {}, bo
     let data = {
         uuid,
         title,
+        url,
         method,
         params,
         headers,
@@ -32,6 +33,6 @@ export function storeApi(uuid, title, url, method, params = {}, headers = {}, bo
 }
 
 
-export function putApi() {
+export function updateApi() {
 
 }

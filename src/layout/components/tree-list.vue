@@ -1,9 +1,19 @@
 <template>
   <div>
     <div class="tool">
-      <div>
-        <el-button @click="createNode()">添加</el-button>
-      </div>
+      <el-input
+        placeholder="搜索"
+        suffix-icon="el-icon-search"
+        v-model="filterText"
+        class="search"
+      >
+      </el-input>
+      <el-button
+        type="primary"
+        @click="createNode()"
+        icon="el-icon-plus"
+        class="plus"
+      ></el-button>
     </div>
     <TreeMenu ref="treemenu"></TreeMenu>
   </div>
@@ -16,11 +26,18 @@ export default {
     TreeMenu,
   },
   data() {
-    return {};
+    return {
+      filterText: "",
+    };
   },
   methods: {
     createNode() {
       this.$refs["treemenu"].createNode();
+    },
+  },
+  watch: {
+    filterText(val) {
+      this.$refs["treemenu"].setfilterText(val);
     },
   },
 };
@@ -31,5 +48,12 @@ export default {
   height: 40px;
   display: flex;
   align-items: center;
+  .search {
+    flex: 1;
+    padding: 5px;
+  }
+
+  .plus {
+  }
 }
 </style>

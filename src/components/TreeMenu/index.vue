@@ -7,6 +7,8 @@
     empty-text="无数据"
     @node-click="handleNodeClick"
     @node-contextmenu="nodeContextmenu"
+    :filter-node-method="filterNode"
+    ref="tree"
   >
     <template #default="{ data }">
       <div class="custom-tree-node">
@@ -188,6 +190,13 @@ export default {
           key: data.api_uuid,
         });
       }
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
+    setfilterText(val) {
+      this.$refs["tree"].filter(val);
     },
   },
 };

@@ -28,6 +28,12 @@ export function createProject(title) {
     return db.project.add(data)
 }
 
+
+export function updateProject(id, project) {
+    return db.project.update(id, project)
+}
+
+
 /**
  * 
  * @param {*} name 

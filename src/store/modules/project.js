@@ -1,8 +1,10 @@
 import router from "@/router"
 import _ from 'lodash'
+import { createProject, updateProject } from '@/database/project'
 
 const state = {
     curProject: {
+        title: '',
         nodes: []
     }
 }
@@ -19,11 +21,18 @@ const mutations = {
     }
 }
 const actions = {
-    setCurProject({ commit }, project) {
+    async setCurProject({ commit }, project) {
+        if (project.id) {
+            id = await updateProject(project.id, project)
+        } else {
+            id = await createProject(project.title)
+        }
         commit('SET_CUR_PROJECT', project)
     },
-    setNodes({ commit }, nodes) {
+    async setNodes({ commit, state }, nodes) {
         commit('SET_NODES', nodes)
+        console.log(state.curProject)
+        // id = await updateProject(state.curProject.id)
     }
 }
 
