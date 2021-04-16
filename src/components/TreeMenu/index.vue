@@ -45,7 +45,7 @@
 
 <script>
 import store from "@/store";
-import { createNode } from "@/database/project";
+import { createMenu } from "@/database/project-menu";
 import VueContextMenu from "@/components/VueContextMenu/VueContextMenu";
 
 export default {
@@ -135,14 +135,12 @@ export default {
         y: evt.clientY,
       };
     },
-    createNode() {
+    async createNode() {
       //   console.log("添加节点");
-      this.treeData.push(createNode("未命名", "folder"));
+      let node = await createMenu("未命名", "folder");
+      this.treeData.push(node);
     },
-    savedata() {
-      alert(1);
-    },
-    AddNode(type = "folder") {
+    async AddNode(type = "folder") {
       const node = this.contextMenuTmp.node;
       const data = this.contextMenuTmp.data;
 
@@ -157,7 +155,8 @@ export default {
       if (data.type == "api") {
         children = node.parent.data.children;
       }
-      let newnode = createNode("未命名", type);
+      // console.log(data);
+      let newnode = await createMenu("未命名", type, data.uuid);
       children.push(newnode);
       node.expanded = true;
 
