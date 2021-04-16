@@ -52,10 +52,12 @@ export default {
       this.tagsScroll(px);
     },
     openTagPage(tag) {
+      console.log(tag)
       this.$router.push({
         path: `/api/${tag.key}`,
         query: {
           title: tag.title,
+          node_uuid: tag.node_uuid,
         },
       });
     },

@@ -16,12 +16,15 @@
       </pane>
     </splitpanes>
   </div>
+
+  <MenuChoose v-if="!nodeKey" ref="MenuChoose"></MenuChoose>
 </template>
 
 <script>
 import UrlBar from "@/components/UrlBar";
 import ToolBar from "@/components/ToolBar";
 import ResponseBar from "@/components/ResponseBar";
+import MenuChoose from "@/components/MenuChoose";
 
 import http from "@/libs/request";
 import { Splitpanes, Pane } from "splitpanes";
@@ -36,6 +39,7 @@ export default {
     Splitpanes,
     Pane,
     ResponseBar,
+    MenuChoose,
   },
   data() {
     return {
@@ -65,6 +69,9 @@ export default {
     title() {
       return this.$route.query.title;
     },
+    nodeKey() {
+      return this.$route.query.node_uuid;
+    },
     projectKey() {
       return this.$store.getters.curProject.uuid;
     },
@@ -72,7 +79,7 @@ export default {
   watch: {
     apiInfo: {
       handler(val) {
-        console.log(val);
+        // console.log(val);
         this.setSaved(false);
       },
       deep: true,
@@ -89,7 +96,14 @@ export default {
       this.apiInfo.project_uuid = this.projectKey;
     },
     async onSave() {
-      console.log(this.apiInfo.id);
+      // console.log(this.apiInfo.id);
+      console.log(this.nodeKey);
+      if (!this.nodeKey) {
+        console.log("节点不存在");
+        this.$refs["MenuChoose"].show();
+        return;
+      }
+
       if (this.apiInfo.id == null) {
         let data = JSON.parse(JSON.stringify(this.apiInfo));
         delete data.id; // 需要移除ID 数据库

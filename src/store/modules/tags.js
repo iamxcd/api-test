@@ -35,6 +35,7 @@ const state = {
         // {
         //     title: '接口名',
         //     key: '3320cc226f264022a457c5e23f6cbba5',
+        //     node_uuid: null,
         //     is_saved: true
         // }
     ],
@@ -69,6 +70,7 @@ const mutations = {
         state.tagList.push({
             title,
             key,
+            node_uuid: null,
             is_saved: false
         });
         router.push({
@@ -78,7 +80,7 @@ const mutations = {
             }
         })
     },
-    OPEN_TAG(state, { key, title }) {
+    OPEN_TAG(state, { key, title, node_uuid }) {
         console.log(key, title)
         let isset = state.tagList.some(function (item) {
             return item.key == key
@@ -88,13 +90,15 @@ const mutations = {
             state.tagList.unshift({
                 title,
                 key,
+                node_uuid,
                 is_saved: true
             })
         }
         router.push({
             path: `/api/${key}`,
             query: {
-                title
+                title,
+                node_uuid
             }
         })
     },
@@ -117,8 +121,8 @@ const actions = {
     addTag({ commit }) {
         commit('ADD_TAG');
     },
-    openTag({ commit }, { key, title }) {
-        commit('OPEN_TAG', { key, title });
+    openTag({ commit }, { key, title, node_uuid }) {
+        commit('OPEN_TAG', { key, title, node_uuid });
     },
     renameTag({ commit }, { key, title }) {
         commit('RENAME_TAG', { key, title });

@@ -1,44 +1,46 @@
 <template>
-  <el-tree
-    :data="treeData"
-    :props="defaultProps"
-    :indent="indent"
-    node-key="uuid"
-    empty-text="无数据"
-    @node-click="handleNodeClick"
-    @node-contextmenu="nodeContextmenu"
-    :filter-node-method="filterNode"
-    ref="tree"
-  >
-    <template #default="{ data }">
-      <div class="custom-tree-node">
-        <i v-if="data.type == 'folder'" class="icon el-icon-folder"></i>
-        <i v-else class="icon el-icon-document"></i>
-        <input
-          v-if="data.$_is_show_rename_input"
-          type="text"
-          v-focus
-          v-model="data.name"
-          @keyup.enter="renameHandle(data)"
-          @blur="renameHandle(data)"
-          class="rename_input"
-        />
+  <div class="tree-menu">
+    <el-tree
+      :data="treeData"
+      :props="defaultProps"
+      :indent="indent"
+      node-key="uuid"
+      empty-text="无数据"
+      @node-click="handleNodeClick"
+      @node-contextmenu="nodeContextmenu"
+      :filter-node-method="filterNode"
+      ref="tree"
+    >
+      <template #default="{ data }">
+        <div class="custom-tree-node">
+          <i v-if="data.type == 'folder'" class="icon el-icon-folder"></i>
+          <i v-else class="icon el-icon-document"></i>
+          <input
+            v-if="data.$_is_show_rename_input"
+            type="text"
+            v-focus
+            v-model="data.name"
+            @keyup.enter="renameHandle(data)"
+            @blur="renameHandle(data)"
+            class="rename_input"
+          />
 
-        <span v-else class="title"> {{ data.name }}</span>
+          <span v-else class="title"> {{ data.name }}</span>
 
-        <span class="action">
-          <i class="el-icon-more"></i>
-        </span>
-      </div>
-    </template>
-  </el-tree>
-  <vue-context-menu
-    :contextMenuData="contextMenuData"
-    @createFolder="AddNode('folder')"
-    @createApi="AddNode('api')"
-    @removeNode="removeNode()"
-    @rename="rename()"
-  ></vue-context-menu>
+          <span class="action">
+            <i class="el-icon-more"></i>
+          </span>
+        </div>
+      </template>
+    </el-tree>
+    <vue-context-menu
+      :contextMenuData="contextMenuData"
+      @createFolder="AddNode('folder')"
+      @createApi="AddNode('api')"
+      @removeNode="removeNode()"
+      @rename="rename()"
+    ></vue-context-menu>
+  </div>
 </template>
 
 <script>
@@ -49,15 +51,6 @@ import VueContextMenu from "@/components/VueContextMenu/VueContextMenu";
 export default {
   components: {
     VueContextMenu,
-  },
-  props: {
-    selector: {
-      /**
-       * 当为选择器模式的时候 只能查看目录
-       */
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -129,6 +122,7 @@ export default {
         this.$store.dispatch("openTag", {
           title: data.name,
           key: data.api_uuid,
+          node_uuid: data.uuid,
         });
       }
     },
@@ -171,6 +165,7 @@ export default {
         this.$store.dispatch("openTag", {
           title: newnode.name,
           key: newnode.api_uuid,
+          node_uuid: data.uuid,
         });
       }
     },
@@ -210,7 +205,7 @@ export default {
 </script>
 
 <style lang="scss">
-.el-tree > .el-tree-node > .el-tree-node__content {
+.tree-menu > .el-tree > .el-tree-node > .el-tree-node__content {
   height: 60px;
 }
 

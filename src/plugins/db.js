@@ -3,8 +3,8 @@ import { createProject, getProject } from '@/database/project'
 import store from '@/store'
 const db = new Dexie('apitest')
 db.version(1).stores({
-    project: '++id, uuid',
-    api: '++id , uuid , project_uuid'
+    project: '++id, &uuid',
+    api: '++id , &uuid , project_uuid, node_uuid'
 })
 
 
