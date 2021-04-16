@@ -27,13 +27,17 @@ export async function createMenu(name = '未命名', type = 'api', puuid = null)
 
 export async function getTreeMenu() {
     let data = await db.project_menu.toArray()
-    let nodes = getTree(null, data)
-    console.log(nodes)
+    return getTree(null, data)
 }
 
 export function renameName(id, name) {
     // console.log(name)
     return db.project_menu.update(id, { name })
+}
+
+export async function updateApiuuid(uuid, api_uuid) {
+    let node = await db.project_menu.get({ uuid })
+    return await db.project_menu.update(node.id, { api_uuid })
 }
 
 export function delMenu(id) {
@@ -45,9 +49,7 @@ export async function getFolder() {
         type: 'folder'
     }).toArray()
     console.log('获取文件夹列表', data)
-    let nodes = getTree(null, data)
-
-    return nodes
+    return getTree(null, data)
 }
 
 

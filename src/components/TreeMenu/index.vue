@@ -1,7 +1,7 @@
 <template>
   <div class="tree-menu">
     <el-tree
-      :data="treeData"
+      :data="nodes"
       :props="defaultProps"
       :indent="indent"
       node-key="uuid"
@@ -9,6 +9,9 @@
       @node-click="handleNodeClick"
       @node-contextmenu="nodeContextmenu"
       :filter-node-method="filterNode"
+      @node-expand="nodeExpand"
+      @node-collapse="nodeCollapse"
+      :default-expanded-keys="expandedKeys"
       ref="tree"
     >
       <template #default="{ data }">
@@ -60,6 +63,8 @@ export default {
         children: "children",
         label: "name",
       },
+      // TODO 这里可能会越来越大 删除父级 子级展开的ID未被删除
+      expandedKeys: [],
       // 右键菜单配置
       contextMenuData: {
         menuName: "demo",
@@ -98,13 +103,16 @@ export default {
   },
   computed: {
     nodes() {
+      console.log(this.expandedKeys);
       return store.getters.nodes;
     },
   },
   watch: {
     treeData: {
       handler(nodes) {
-        this.$store.dispatch("setNodes", nodes);
+        // TODO 防抖
+        this.$store.dispatch("getNodes");
+        console.log("树形数据变化");
       },
       deep: true,
     },
@@ -137,7 +145,8 @@ export default {
     },
     async createFolder() {
       let node = await createMenu("未命名", "folder");
-      this.treeData.push(node);
+      // this.treeData.push(node);
+      this.$store.dispatch("getNodes");
     },
     async AddNode(type = "folder") {
       const node = this.contextMenuTmp.node;
@@ -152,12 +161,17 @@ export default {
       if (data.type == "api") {
         children = node.parent.data.children;
         newnode = await createMenu("未命名", type, node.parent.data.uuid);
+        this.nodeExpand(node.parent.data);
       } else {
         newnode = await createMenu("未命名", type, data.uuid);
+        this.nodeExpand(data);
       }
       // console.log(data);
-      children.push(newnode);
-      node.expanded = true;
+      // children.push(newnode);
+      // node.expanded = true;
+      // console.log("node", node);
+
+      this.$store.dispatch("getNodes");
       if (type == "api") {
         this.$store.dispatch("openTag", {
           title: newnode.name,
@@ -172,11 +186,12 @@ export default {
       const parent = node.parent;
       const children = parent.data.children || parent.data;
       const index = children.findIndex((d) => d.uuid === data.uuid);
+
       delMenu(data.id).then(() => {
         if (data.type == "api") {
           this.$store.dispatch("closeTag", data.api_uuid);
         }
-        children.splice(index, 1);
+        this.$store.dispatch("getNodes");
       });
     },
     rename() {
@@ -192,6 +207,7 @@ export default {
           key: data.api_uuid,
         });
       }
+      this.$store.dispatch("getNodes");
     },
     filterNode(value, data) {
       if (!value) return true;
@@ -199,6 +215,20 @@ export default {
     },
     setfilterText(val) {
       this.$refs["tree"].filter(val);
+    },
+    nodeCollapse(data) {
+      let i = this._i(data.uuid);
+      if (i > -1) {
+        this.expandedKeys.splice(i, 1);
+      }
+    },
+    nodeExpand(data) {
+      if (this._i(data.uuid) == -1) {
+        this.expandedKeys.push(data.uuid);
+      }
+    },
+    _i(key) {
+      return this.expandedKeys.indexOf(key);
     },
   },
 };

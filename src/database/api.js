@@ -1,5 +1,6 @@
 import db from '@/plugins/db'
 import uuid from '@/plugins/uuid'
+import { updateApiuuid } from '@/database/project-menu'
 
 /**
  * api 定义
@@ -23,6 +24,9 @@ export function getApi(uuid) {
 
 
 export function storeApi(data) {
+    if (data.node_uuid) {
+        updateApiuuid(data.node_uuid, data.uuid)
+    }
     return db.api.add(data)
 }
 
