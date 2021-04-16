@@ -33,7 +33,7 @@ export default {
   watch: {
     value(value) {
       this.code = value;
-      console.log("监听到了2", value);
+      // console.log("监听到了2", value);
     },
   },
 };

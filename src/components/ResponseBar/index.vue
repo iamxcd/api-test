@@ -41,7 +41,7 @@ export default {
         if (res.data) {
           this.bodyValue = res.data;
         }
-        console.log("监听到了响应", res.data);
+        // console.log("监听到了响应", res.data);
       },
       deep: true,
     },

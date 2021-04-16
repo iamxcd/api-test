@@ -1,16 +1,21 @@
 <template>
-  <el-form :inline="true" size="large" :model="form" class="url-bar">
+  <el-form :inline="true" size="large" class="url-bar">
     <el-form-item class="ipt">
-      <el-input v-model="form.url" class="url_ipt" placeholder="请输入URL">
+      <el-input
+        v-model="url"
+        @input="(val) => $emit('update:url', val)"
+        class="url_ipt"
+        placeholder="请输入URL"
+      >
         <template #prepend>
           <el-dropdown
             class="action-dropdown"
             size="large"
-            @command="handleCommand"
+            @command="(action) => $emit('update:method', action)"
           >
             <div class="action">
               <div class="action_name">
-                {{ form.method }}
+                {{ method }}
               </div>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </div>
@@ -58,36 +63,18 @@ export default {
       default: "GET",
     },
   },
+  emits: ["update:url", "update:method"],
   data() {
     return {
-      form: {
-        url: "",
-        method: "GET",
-      },
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     };
   },
-  created() {
-    this.form.url = this.url;
-    this.form.method = this.method;
-  },
   methods: {
-    handleCommand(action) {
-      this.form.method = action;
-    },
     onSend() {
       this.$emit("onSend");
     },
     onSave() {
       this.$emit("onSave");
-    },
-  },
-  watch: {
-    form: {
-      handler(val) {
-        this.$emit("onChange", val);
-      },
-      deep: true,
     },
   },
 };

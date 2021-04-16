@@ -3,8 +3,8 @@
     <splitpanes class="default-theme splitpane" horizontal>
       <pane>
         <UrlBar
-          :url="apiInfo.url"
-          :method="apiInfo.method"
+          v-model:url="apiInfo.url"
+          v-model:method="apiInfo.method"
           @onChange="urlChange"
           @onSave="onSave"
           @onSend="onSend"
@@ -72,6 +72,7 @@ export default {
   watch: {
     apiInfo: {
       handler(val) {
+        console.log(val);
         this.setSaved(false);
       },
       deep: true,
