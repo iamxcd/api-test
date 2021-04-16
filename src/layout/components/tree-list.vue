@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     createNode() {
-      this.$refs["treemenu"].createNode();
+      this.$refs["treemenu"].createFolder();
     },
   },
   watch: {

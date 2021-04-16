@@ -7,6 +7,7 @@ import uuid from '@/plugins/uuid'
  * uuid
  * title 接口名称
  * url 请求地址
+ * node_uuid 关联目录节点uuid
  * project_uuid 关联项目的uuid
  * method 请求方法
  * params 请求参数

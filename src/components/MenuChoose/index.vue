@@ -9,11 +9,18 @@
       @node-click="handleNodeClick"
     >
     </el-tree>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="onSubmit()">确 定</el-button>
+        <el-button @click="close()">取 消</el-button>
+      </span>
+    </template>
   </el-dialog>
 </template>
 
 <script>
 import TreeMenu from "@/components/TreeMenu";
+import { getFolder } from "@/database/project-menu";
 export default {
   components: {
     TreeMenu,
@@ -27,23 +34,28 @@ export default {
         children: "children",
         label: "name",
       },
+      selected: null,
     };
   },
-  created() {
-    this.treeData = this.nodes;
-  },
-  computed: {
-    nodes() {
-      return this.$store.getters.nodes;
-    },
-  },
-
   methods: {
     show() {
+      this.getNodes();
       this.showDialog = true;
     },
     handleNodeClick(data) {
-      console.log(data);
+      this.selected = data;
+    },
+    getNodes() {
+      getFolder().then((nodes) => {
+        this.treeData = nodes;
+      });
+    },
+    onSubmit() {
+      if (this.selected === null) {
+        this.$message.error("请选择目录");
+      }
+      this.$emit("onSelected", this.selected);
+      this.close();
     },
     close() {
       this.showDialog = false;

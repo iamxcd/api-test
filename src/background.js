@@ -17,6 +17,7 @@ async function createWindow() {
     height: 800,
     minWidth: 1300,
     minHeight: 800,
+    // frame: false,// 没有状态栏
     webPreferences: {
 
       // Use pluginOptions.nodeIntegration, leave this alone

@@ -129,14 +129,13 @@ export default {
     nodeContextmenu(evt, data, node) {
       this.contextMenuTmp.node = node;
       this.contextMenuTmp.data = data;
-      //   console.log(node);
+      // console.log("右键菜单", node, data);
       this.contextMenuData.axis = {
         x: evt.clientX,
         y: evt.clientY,
       };
     },
-    async createNode() {
-      //   console.log("添加节点");
+    async createFolder() {
       let node = await createMenu("未命名", "folder");
       this.treeData.push(node);
     },
@@ -144,22 +143,21 @@ export default {
       const node = this.contextMenuTmp.node;
       const data = this.contextMenuTmp.data;
 
-      let children = null;
+      let children = data.children;
       if (!data.children) {
-        children = data.children = [];
-      } else {
-        children = data.children;
+        children = [];
       }
-
+      let newnode;
       // 如果选择的是接口 则在同级新增节点
       if (data.type == "api") {
         children = node.parent.data.children;
+        newnode = await createMenu("未命名", type, node.parent.data.uuid);
+      } else {
+        newnode = await createMenu("未命名", type, data.uuid);
       }
       // console.log(data);
-      let newnode = await createMenu("未命名", type, data.uuid);
       children.push(newnode);
       node.expanded = true;
-
       if (type == "api") {
         this.$store.dispatch("openTag", {
           title: newnode.name,

@@ -17,7 +17,11 @@
     </splitpanes>
   </div>
 
-  <MenuChoose v-if="!nodeKey" ref="MenuChoose"></MenuChoose>
+  <MenuChoose
+    v-if="!nodeKey"
+    ref="MenuChoose"
+    @onSelected="onSelectedFolder"
+  ></MenuChoose>
 </template>
 
 <script>
@@ -48,7 +52,8 @@ export default {
         uuid: "",
         title: "",
         url: "",
-        project_uuid: "",
+        node_uuid: null,
+        project_uuid: null,
         method: "GET",
         params: [],
         headers: [],
@@ -93,12 +98,12 @@ export default {
     init() {
       this.apiInfo.uuid = this.key;
       this.apiInfo.title = this.title;
+      this.apiInfo.node_uuid = this.nodeKey;
       this.apiInfo.project_uuid = this.projectKey;
     },
     async onSave() {
       // console.log(this.apiInfo.id);
-      console.log(this.nodeKey);
-      if (!this.nodeKey) {
+      if (!this.apiInfo.node_uuid) {
         console.log("节点不存在");
         this.$refs["MenuChoose"].show();
         return;
@@ -112,6 +117,11 @@ export default {
         this.getApiInfo();
       }
       this.setSaved(true);
+    },
+    onSelectedFolder(folder) {
+      console.log("选中的目录", folder);
+      this.apiInfo.node_uuid = folder.uuid;
+      this.onSave();
     },
     onSend() {
       if (this.apiInfo.url == "") {

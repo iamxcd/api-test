@@ -40,18 +40,24 @@ export function delMenu(id) {
     return db.project_menu.delete(id)
 }
 
-export function getFolder() {
+export async function getFolder() {
+    let data = await db.project_menu.where({
+        type: 'folder'
+    }).toArray()
+    console.log('获取文件夹列表', data)
+    let nodes = getTree(null, data)
 
+    return nodes
 }
 
 
 function getTree(pid, data) {
     let children = [];
-    let items = _.filter(data, { puuid, pid });
-    for (let index = 0; index < items.length; index++) {
+    let items = _.filter(data, { puuid: pid });
+    for (let i = 0; i < items.length; i++) {
         let tmp = items[i];
         tmp.children = getTree(tmp.uuid, data)
         children.push(tmp)
     }
-    return $children;
+    return children;
 }
