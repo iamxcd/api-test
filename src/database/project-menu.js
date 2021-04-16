@@ -29,8 +29,21 @@ export async function getTreeMenu() {
     let data = await db.project_menu.toArray()
     let nodes = getTree(null, data)
     console.log(nodes)
+}
+
+export function renameName(id, name) {
+    // console.log(name)
+    return db.project_menu.update(id, { name })
+}
+
+export function delMenu(id) {
+    return db.project_menu.delete(id)
+}
+
+export function getFolder() {
 
 }
+
 
 function getTree(pid, data) {
     let children = [];
@@ -41,8 +54,4 @@ function getTree(pid, data) {
         children.push(tmp)
     }
     return $children;
-}
-
-export function getFolder() {
-
 }

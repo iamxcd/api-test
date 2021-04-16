@@ -45,7 +45,7 @@
 
 <script>
 import store from "@/store";
-import { createMenu } from "@/database/project-menu";
+import { createMenu, delMenu, renameName } from "@/database/project-menu";
 import VueContextMenu from "@/components/VueContextMenu/VueContextMenu";
 
 export default {
@@ -174,10 +174,12 @@ export default {
       const parent = node.parent;
       const children = parent.data.children || parent.data;
       const index = children.findIndex((d) => d.uuid === data.uuid);
-      if (data.type == "api") {
-        this.$store.dispatch("closeTag", data.api_uuid);
-      }
-      children.splice(index, 1);
+      delMenu(data.id).then(() => {
+        if (data.type == "api") {
+          this.$store.dispatch("closeTag", data.api_uuid);
+        }
+        children.splice(index, 1);
+      });
     },
     rename() {
       const data = this.contextMenuTmp.data;
@@ -185,6 +187,7 @@ export default {
     },
     renameHandle(data) {
       delete data.$_is_show_rename_input;
+      renameName(data.id, data.name);
       if (data.type == "api") {
         this.$store.dispatch("renameTag", {
           title: data.name,
