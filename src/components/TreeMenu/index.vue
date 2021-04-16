@@ -132,6 +132,7 @@ export default {
       const node = this.contextMenuTmp.node;
       const data = this.contextMenuTmp.data;
       // 如果选择的是接口 则在同级新增节点
+      let newnode;
       if (data.type == "api") {
         newnode = await createMenu("未命名", type, node.parent.data.uuid);
         this.nodeExpand(node.parent.data);
