@@ -70,6 +70,7 @@ export default {
     },
     setCurProject(project) {
       this.$store.dispatch("setCurProject", project);
+      this.$store.dispatch("getNodes");
       this.close();
     },
   },

@@ -4,7 +4,7 @@
       <TopHeader></TopHeader>
     </el-header>
     <el-container class="main">
-      <el-aside width="200px">
+      <el-aside width="250px">
         <TreeList> </TreeList>
       </el-aside>
       <el-container>

@@ -98,30 +98,10 @@ export default {
       },
     };
   },
-  created() {
-    this.treeData = this.nodes;
-  },
   computed: {
     nodes() {
-      console.log(this.expandedKeys);
+      // console.log(this.expandedKeys);
       return store.getters.nodes;
-    },
-  },
-  watch: {
-    treeData: {
-      handler(nodes) {
-        // TODO 防抖
-        this.$store.dispatch("getNodes");
-        console.log("树形数据变化");
-      },
-      deep: true,
-    },
-    "$store.getters.curProject.id": {
-      handler() {
-        // console.log("当前项目变化", this.$store.getters.nodes);
-        this.treeData = this.$store.getters.nodes;
-      },
-      deep: true,
     },
   },
   methods: {
@@ -151,25 +131,14 @@ export default {
     async AddNode(type = "folder") {
       const node = this.contextMenuTmp.node;
       const data = this.contextMenuTmp.data;
-
-      let children = data.children;
-      if (!data.children) {
-        children = [];
-      }
-      let newnode;
       // 如果选择的是接口 则在同级新增节点
       if (data.type == "api") {
-        children = node.parent.data.children;
         newnode = await createMenu("未命名", type, node.parent.data.uuid);
         this.nodeExpand(node.parent.data);
       } else {
         newnode = await createMenu("未命名", type, data.uuid);
         this.nodeExpand(data);
       }
-      // console.log(data);
-      // children.push(newnode);
-      // node.expanded = true;
-      // console.log("node", node);
 
       this.$store.dispatch("getNodes");
       if (type == "api") {
@@ -181,12 +150,8 @@ export default {
       }
     },
     removeNode() {
-      const node = this.contextMenuTmp.node;
+      // const node = this.contextMenuTmp.node;
       const data = this.contextMenuTmp.data;
-      const parent = node.parent;
-      const children = parent.data.children || parent.data;
-      const index = children.findIndex((d) => d.uuid === data.uuid);
-
       delMenu(data.id).then(() => {
         if (data.type == "api") {
           this.$store.dispatch("closeTag", data.api_uuid);

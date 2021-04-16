@@ -1,23 +1,28 @@
 import db from '@/plugins/db'
 import uuid from '@/plugins/uuid'
 import _ from 'lodash'
+import store from "@/store";
 
 /**
  * project_menu 集合
  * id 
  * uuid
- * puuid 上级uuid
+ * parent_uuid 上级uuid
+ * project_uuid 所属项目
  * name 项目名称
  * type 文件夹|接口  api 或者 folder
  * api_uuid 关联的接口的ID
  */
 
-export async function createMenu(name = '未命名', type = 'api', puuid = null) {
+export async function createMenu(name = '未命名', type = 'api', parent_uuid = null) {
+    let project_uuid = store.getters.curProject.uuid
+    console.log(project_uuid)
     let data = {
         uuid: uuid(),//节点的ID
         name,
         type,
-        puuid,
+        parent_uuid,
+        project_uuid,
         api_uuid: type == 'api' ? uuid() : null,
     }
     data = JSON.parse(JSON.stringify(data))
@@ -25,8 +30,8 @@ export async function createMenu(name = '未命名', type = 'api', puuid = null)
     return data
 }
 
-export async function getTreeMenu() {
-    let data = await db.project_menu.toArray()
+export async function getTreeMenu(project_uuid) {
+    let data = await db.project_menu.where({ project_uuid }).toArray()
     return getTree(null, data)
 }
 
@@ -55,7 +60,7 @@ export async function getFolder() {
 
 function getTree(pid, data) {
     let children = [];
-    let items = _.filter(data, { puuid: pid });
+    let items = _.filter(data, { parent_uuid: pid });
     for (let i = 0; i < items.length; i++) {
         let tmp = items[i];
         tmp.children = getTree(tmp.uuid, data)

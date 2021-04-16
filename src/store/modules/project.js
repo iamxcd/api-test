@@ -27,8 +27,8 @@ const actions = {
     setCurProject({ commit }, project) {
         commit('SET_CUR_PROJECT', project)
     },
-    getNodes({ commit }) {
-        getTreeMenu().then(nodes => {
+    getNodes({ commit, state }) {
+        getTreeMenu(state.curProject.uuid).then(nodes => {
             commit('SET_NODES', nodes)
             console.log('vuex 设置目录', nodes)
         })

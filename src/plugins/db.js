@@ -4,7 +4,7 @@ import store from '@/store'
 const db = new Dexie('apitest')
 db.version(1).stores({
     project: '++id, &uuid',
-    project_menu: '++id, &uuid, type',
+    project_menu: '++id, &uuid, project_uuid, type',
     api: '++id , &uuid , project_uuid, node_uuid'
 })
 
